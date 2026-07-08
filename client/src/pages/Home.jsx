@@ -13,26 +13,47 @@ import { Input } from '../components/ui/input.jsx';
 
 // Define company bubbles to float in background (locations matching red circles)
 const BACKGROUND_BUBBLES = [
-  { id: 1, name: 'Reliance', logo: 'R', color: 'from-blue-600 to-indigo-500 shadow-blue-500/20', size: 'w-16 h-16 md:w-20 md:h-20', top: '15%', left: '4%', animate: 'animate-float-slow' },
-  { id: 2, name: 'Tata Motors', logo: 'T', color: 'from-sky-950 to-blue-800 shadow-indigo-950/20', size: 'w-18 h-18 md:w-22 md:h-22', top: '12%', right: '14%', animate: 'animate-float-fast' },
-  { id: 3, name: 'Tesla', logo: 'T', color: 'from-red-600 to-rose-500 shadow-red-500/20', size: 'w-14 h-14 md:w-16 md:h-16', top: '48%', left: '3%', animate: 'animate-float-fast' },
-  { id: 4, name: 'Apple', logo: '', color: 'from-slate-800 to-slate-600 shadow-slate-800/20', size: 'w-16 h-16 md:w-18 md:h-18', top: '35%', right: '5%', animate: 'animate-float-slow' },
-  { id: 5, name: 'Nvidia', logo: 'N', color: 'from-emerald-600 to-green-500 shadow-emerald-500/20', size: 'w-20 h-20 md:w-24 md:h-24', top: '72%', left: '6%', animate: 'animate-float-slow' },
-  { id: 6, name: 'Infosys', logo: 'I', color: 'from-indigo-800 to-blue-600 shadow-blue-500/20', size: 'w-14 h-14 md:w-16 md:h-16', top: '60%', right: '12%', animate: 'animate-float-fast' },
-  { id: 7, name: 'TCS', logo: 'T', color: 'from-teal-600 to-emerald-500 shadow-teal-500/10', size: 'w-12 h-12 md:w-14 md:h-14', top: '24%', left: '16%', animate: 'animate-float-slow' },
-  { id: 8, name: 'Google', logo: 'G', color: 'from-red-500 via-yellow-500 to-green-500 shadow-yellow-500/20', size: 'w-18 h-18 md:w-20 md:h-20', top: '44%', left: '12%', animate: 'animate-float-fast' },
-  { id: 9, name: 'Wipro', logo: 'W', color: 'from-purple-600 to-violet-500 shadow-purple-500/10', size: 'w-14 h-14 md:w-16 md:h-16', top: '74%', right: '8%', animate: 'animate-float-slow' },
+  { id: 1, name: 'Reliance', logo: 'R', domain: 'relianceindustries.com', color: 'from-blue-600 to-indigo-500 shadow-blue-500/20', size: 'w-16 h-16 md:w-20 md:h-20', top: '15%', left: '4%', animate: 'animate-float-slow' },
+  { id: 2, name: 'Tata Motors', logo: 'T', domain: 'tatamotors.com', color: 'from-sky-950 to-blue-800 shadow-indigo-950/20', size: 'w-18 h-18 md:w-22 md:h-22', top: '12%', right: '14%', animate: 'animate-float-fast' },
+  { id: 3, name: 'Tesla', logo: 'T', domain: 'tesla.com', color: 'from-red-600 to-rose-500 shadow-red-500/20', size: 'w-14 h-14 md:w-16 md:h-16', top: '48%', left: '3%', animate: 'animate-float-fast' },
+  { id: 4, name: 'Apple', logo: '', domain: 'apple.com', color: 'from-slate-800 to-slate-600 shadow-slate-800/20', size: 'w-16 h-16 md:w-18 md:h-18', top: '35%', right: '5%', animate: 'animate-float-slow' },
+  { id: 5, name: 'Nvidia', logo: 'N', domain: 'nvidia.com', color: 'from-emerald-600 to-green-500 shadow-emerald-500/20', size: 'w-20 h-20 md:w-24 md:h-24', top: '72%', left: '6%', animate: 'animate-float-slow' },
+  { id: 6, name: 'Infosys', logo: 'I', domain: 'infosys.com', color: 'from-indigo-800 to-blue-600 shadow-blue-500/20', size: 'w-14 h-14 md:w-16 md:h-16', top: '60%', right: '12%', animate: 'animate-float-fast' },
+  { id: 7, name: 'TCS', logo: 'T', domain: 'tcs.com', color: 'from-teal-600 to-emerald-500 shadow-teal-500/10', size: 'w-12 h-12 md:w-14 md:h-14', top: '24%', left: '16%', animate: 'animate-float-slow' },
+  { id: 8, name: 'Google', logo: 'G', domain: 'google.com', color: 'from-red-500 via-yellow-500 to-green-500 shadow-yellow-500/20', size: 'w-18 h-18 md:w-20 md:h-20', top: '44%', left: '12%', animate: 'animate-float-fast' },
+  { id: 9, name: 'Wipro', logo: 'W', domain: 'wipro.com', color: 'from-purple-600 to-violet-500 shadow-purple-500/10', size: 'w-14 h-14 md:w-16 md:h-16', top: '74%', right: '8%', animate: 'animate-float-slow' },
 ];
 
 // Suggested trending companies displaying direct circular logo badges under search
 const TRENDING_COMPANIES = [
-  { name: 'Reliance', ticker: 'RELIANCE.NS', logo: 'R', color: 'bg-blue-600 text-white shadow-blue-500/30' },
-  { name: 'Tata Motors', ticker: 'TATAMOTORS.NS', logo: 'T', color: 'bg-sky-950 text-white shadow-slate-900/30' },
-  { name: 'Infosys', ticker: 'INFY.NS', logo: 'I', color: 'bg-cyan-600 text-white shadow-cyan-500/30' },
-  { name: 'Tesla', ticker: 'TSLA', logo: 'T', color: 'bg-red-600 text-white shadow-red-500/30' },
-  { name: 'Apple', ticker: 'AAPL', logo: '', color: 'bg-slate-800 text-white shadow-slate-950/30' },
-  { name: 'Nvidia', ticker: 'NVDA', logo: 'N', color: 'bg-emerald-600 text-white shadow-emerald-500/30' },
+  { name: 'Reliance', ticker: 'RELIANCE.NS', logo: 'R', domain: 'relianceindustries.com', color: 'bg-blue-600 text-white shadow-blue-500/30' },
+  { name: 'Tata Motors', ticker: 'TATAMOTORS.NS', logo: 'T', domain: 'tatamotors.com', color: 'bg-sky-950 text-white shadow-slate-900/30' },
+  { name: 'Infosys', ticker: 'INFY.NS', logo: 'I', domain: 'infosys.com', color: 'bg-cyan-600 text-white shadow-cyan-500/30' },
+  { name: 'Tesla', ticker: 'TSLA', logo: 'T', domain: 'tesla.com', color: 'bg-red-600 text-white shadow-red-500/30' },
+  { name: 'Apple', ticker: 'AAPL', logo: '', domain: 'apple.com', color: 'bg-slate-800 text-white shadow-slate-950/30' },
+  { name: 'Nvidia', ticker: 'NVDA', logo: 'N', domain: 'nvidia.com', color: 'bg-emerald-600 text-white shadow-emerald-500/30' },
 ];
+
+// Helper Component to render clearbit company logos with a clean text initials fallback
+function CompanyLogo({ name, domain, fallbackText, className }) {
+  const [error, setError] = useState(false);
+  const logoUrl = `https://logo.clearbit.com/${domain}`;
+
+  if (error || !domain) {
+    return (
+      <span className="uppercase font-extrabold tracking-wider">{fallbackText}</span>
+    );
+  }
+
+  return (
+    <img
+      src={logoUrl}
+      alt={name}
+      onError={() => setError(true)}
+      className={`${className} object-contain rounded-full bg-white p-1`}
+    />
+  );
+}
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -114,7 +135,12 @@ export default function Home() {
               }}
               className={`flex items-center justify-center rounded-full bg-gradient-to-tr ${b.color} border border-white/40 shadow-xl backdrop-blur-[6px] text-white font-sans font-extrabold select-none opacity-85 transition-all duration-500 hover:scale-110 pointer-events-auto ${b.size} ${b.animate}`}
             >
-              <span className="text-sm md:text-lg tracking-wider text-shadow font-extrabold uppercase">{b.logo}</span>
+              <CompanyLogo
+                name={b.name}
+                domain={b.domain}
+                fallbackText={b.logo}
+                className="w-12 h-12 md:w-14 md:h-14 rounded-full"
+              />
             </div>
           ))}
         </div>
@@ -315,8 +341,13 @@ export default function Home() {
                       className="flex items-center space-x-2.5 px-4.5 py-2.5 bg-white border border-slate-200/60 shadow-sm rounded-2xl hover:shadow-md hover:border-primary-350 hover:-translate-y-0.5 active:scale-95 transition-all duration-200"
                     >
                       {/* Circular styled logo badge */}
-                      <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-extrabold tracking-wider uppercase shadow ${company.color}`}>
-                        {company.logo}
+                      <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-extrabold tracking-wider uppercase overflow-hidden shadow">
+                        <CompanyLogo
+                          name={company.name}
+                          domain={company.domain}
+                          fallbackText={company.logo}
+                          className="w-7 h-7 rounded-full"
+                        />
                       </div>
                       <span className="text-xs font-bold text-slate-600">{company.name}</span>
                     </button>
