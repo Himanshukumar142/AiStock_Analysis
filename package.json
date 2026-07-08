@@ -1,0 +1,17 @@
+{
+  "name": "aistock-root",
+  "version": "1.0.0",
+  "description": "AI Investment Research Agent Root workspace runner",
+  "type": "module",
+  "scripts": {
+    "install-all": "npm install && npm run server-install && npm run client-install",
+    "server-install": "cd server && npm install",
+    "client-install": "cd client && npm install",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "dev": "npx concurrently \"npm run server\" \"npm run client\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
