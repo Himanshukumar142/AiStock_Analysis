@@ -1,11 +1,11 @@
 import { analyzeStock } from '../services/agentService.js';
 import { logger } from '../utils/logger.js';
 
-// Handles POST /api/analyze
+
 export async function analyzeCompany(req, res) {
   const { company } = req.body;
 
-  // Check that a company name was sent
+  
   if (!company || typeof company !== 'string' || company.trim() === '') {
     logger.warn('Request missing company name.');
     return res.status(400).json({ error: 'Please enter a company name or stock ticker.' });

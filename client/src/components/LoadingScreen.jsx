@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import { Search, BarChart3, Newspaper, Cpu, CheckCircle2, Loader2 } from 'lucide-react';
 import { LOADING_STEPS } from '../hooks/useStockAnalysis.js';
 
-/**
- * Beautiful loading page displaying the active state of the LangChain Agent.
- * @param {number} currentStep - The index of the active step in LOADING_STEPS.
- * @param {string} companyName - The name of the company being analyzed.
- */
+
+
+
+
+
 export default function LoadingScreen({ currentStep, companyName }) {
   
-  // Map step index to an icon
+  
   const getStepIcon = (index, isActive, isCompleted) => {
     const iconSize = 20;
     if (isCompleted) {
@@ -38,7 +38,7 @@ export default function LoadingScreen({ currentStep, companyName }) {
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="w-full max-w-md glass-card border-white/70 p-8 text-center"
       >
-        {/* Pulsing AI Logo Sphere */}
+        
         <div className="relative w-24 h-24 mx-auto mb-8 flex items-center justify-center">
           <div className="absolute inset-0 bg-primary-400/20 rounded-full animate-ping" />
           <div className="absolute inset-2 bg-gradient-to-tr from-primary-500 to-indigo-600 rounded-full shadow-lg shadow-indigo-200/50 flex items-center justify-center">
@@ -53,7 +53,7 @@ export default function LoadingScreen({ currentStep, companyName }) {
           Our LangChain Investment Agent is collecting and analyzing market data.
         </p>
 
-        {/* Timeline List */}
+        
         <div className="space-y-4 text-left max-w-sm mx-auto mb-6">
           {LOADING_STEPS.map((stepText, idx) => {
             const isCompleted = idx < currentStep;
@@ -74,7 +74,7 @@ export default function LoadingScreen({ currentStep, companyName }) {
                       : 'border-transparent opacity-60'
                 }`}
               >
-                {/* Step indicator status icon */}
+                
                 <div className="mt-0.5">
                   {getStepIcon(idx, isActive, isCompleted)}
                 </div>
@@ -95,7 +95,7 @@ export default function LoadingScreen({ currentStep, companyName }) {
           })}
         </div>
 
-        {/* Progress Scan Bar */}
+        
         <div className="w-full h-1.5 bg-slate-100 rounded-full timeline-bar mt-8 overflow-hidden" />
       </motion.div>
     </div>

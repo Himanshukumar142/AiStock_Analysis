@@ -1,15 +1,15 @@
-/**
- * Simple Logger Utility
- * Provides color-coded log outputs for Node.js console to track agent execution stages.
- */
+
+
+
+
 
 const colors = {
   reset: '\x1b[0m',
-  info: '\x1b[36m', // Cyan
-  success: '\x1b[32m', // Green
-  warning: '\x1b[33m', // Yellow
-  error: '\x1b[31m', // Red
-  agent: '\x1b[35m', // Magenta
+  info: '\x1b[36m', 
+  success: '\x1b[32m', 
+  warning: '\x1b[33m', 
+  error: '\x1b[31m', 
+  agent: '\x1b[35m', 
 };
 
 const getTimestamp = () => {

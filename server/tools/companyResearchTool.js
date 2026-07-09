@@ -4,7 +4,7 @@ import { tavily } from '@tavily/core';
 import { config } from '../config/env.js';
 import { logger } from '../utils/logger.js';
 
-// Set up Tavily search client
+
 let search = null;
 try {
   if (config.tavilyApiKey) {
@@ -16,7 +16,7 @@ try {
   logger.error('Tavily setup failed:', e);
 }
 
-// This tool looks up basic info about a company (what they do, CEO, products, etc)
+
 export const companyResearchTool = tool(
   async ({ company }) => {
     logger.info(`Looking up company info for: ${company}`);

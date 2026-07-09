@@ -5,9 +5,9 @@ import {
 import { TrendingUp, TrendingDown, Clock } from 'lucide-react';
 
 export default function StockChartWidget({ chartData, isLoading }) {
-  const [range, setRange] = useState('6M'); // 1M, 3M, 6M, 1Y
+  const [range, setRange] = useState('6M'); 
 
-  // Filter data based on selected time range
+  
   const filteredData = useMemo(() => {
     if (!chartData?.data) return [];
     
@@ -23,7 +23,7 @@ export default function StockChartWidget({ chartData, isLoading }) {
     return allPoints.filter(d => new Date(d.date) >= cutoff);
   }, [chartData, range]);
 
-  // Calculate current change stats based on range selection
+  
   const rangeStats = useMemo(() => {
     if (filteredData.length < 2) return { change: 0, percent: 0, isUp: true };
     const start = filteredData[0].price;
@@ -73,7 +73,7 @@ export default function StockChartWidget({ chartData, isLoading }) {
   return (
     <div className="w-full bg-white/80 backdrop-blur-lg border border-slate-100 rounded-3xl p-6 shadow-sm flex flex-col justify-between transition-all duration-300">
       
-      {/* Title block */}
+      
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center space-x-2">
@@ -93,14 +93,14 @@ export default function StockChartWidget({ chartData, isLoading }) {
           </div>
         </div>
 
-        {/* Market state pill */}
+        
         <div className="flex items-center space-x-1.5 bg-slate-50 border border-slate-100 px-3 py-1 rounded-full text-[10px] font-bold text-slate-500 uppercase tracking-wider">
           <Clock className="w-3.5 h-3.5" />
           <span>Market: {marketState}</span>
         </div>
       </div>
 
-      {/* Main Stock Chart Area */}
+      
       <div className="h-56 w-full my-4 relative">
         {filteredData.length === 0 ? (
           <div className="absolute inset-0 flex items-center justify-center text-xs text-slate-400 font-medium">
@@ -151,13 +151,13 @@ export default function StockChartWidget({ chartData, isLoading }) {
         )}
       </div>
 
-      {/* Footer / Filter buttons */}
+      
       <div className="flex justify-between items-center pt-2 border-t border-slate-50">
         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
           Performance over time
         </span>
 
-        {/* Range selectors */}
+        
         <div className="flex space-x-1 p-0.5 bg-slate-50 border border-slate-100 rounded-xl">
           {['1M', '3M', '6M', '1Y'].map((p) => {
             const isActive = range === p;

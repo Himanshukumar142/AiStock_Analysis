@@ -3,20 +3,20 @@ import { z } from 'zod';
 import YahooFinance from 'yahoo-finance2';
 import { logger } from '../utils/logger.js';
 
-// Yahoo Finance v3 needs to be instantiated first
+
 const yf = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
 
-// Tries to figure out the stock ticker from a company name, prioritizing Indian markets (.NS) where applicable
+
 async function getTicker(name) {
   try {
     const q = name.trim().toUpperCase();
 
-    // 1. If it already has an Indian suffix (like RELIANCE.NS, TCS.BO), use it directly
+    
     if (/^[A-Z0-9-]{1,12}\.(NS|BO)$/i.test(q)) {
       return q;
     }
 
-    // 2. If it's a 1-6 letter symbol (like INFY, TCS), check if the .NS version exists first!
+    
     if (/^[A-Z0-9-]{1,6}$/.test(q)) {
       try {
         const indianSymbol = `${q}.NS`;
@@ -26,7 +26,7 @@ async function getTicker(name) {
           return indianSymbol;
         }
       } catch (e) {
-        // ignore and move to search
+        
       }
     }
 
@@ -35,10 +35,10 @@ async function getTicker(name) {
     const quotes = res?.quotes || [];
 
     if (quotes.length > 0) {
-      // A. Try mapping the first search result's symbol to NSE (.NS)
+      
       const firstQuote = quotes.find(q => q.quoteType === 'EQUITY') || quotes[0];
       if (firstQuote?.symbol) {
-        const baseSymbol = firstQuote.symbol.split('.')[0]; // strip any suffix
+        const baseSymbol = firstQuote.symbol.split('.')[0]; 
         const nseSymbol = `${baseSymbol}.NS`;
         try {
           const exists = await yf.quote(nseSymbol, {}, { validateResult: false });
@@ -47,11 +47,11 @@ async function getTicker(name) {
             return nseSymbol;
           }
         } catch (err) {
-          // ignore
+          
         }
       }
 
-      // B. If no mapping exists, look for any direct Indian quotes in the search results
+      
       const indianMatch = quotes.find(quote => 
         quote.symbol?.endsWith('.NS') || 
         quote.symbol?.endsWith('.BO') || 
@@ -66,21 +66,21 @@ async function getTicker(name) {
         return indianMatch.symbol;
       }
 
-      // C. Fallback to the original first search result
+      
       if (firstQuote?.symbol) {
         logger.info(`Using first search result ticker: ${firstQuote.symbol}`);
         return firstQuote.symbol;
       }
     }
 
-    return name; // fallback
+    return name; 
   } catch (e) {
     logger.warn(`Ticker search failed for "${name}", using as-is.`, e);
     return name;
   }
 }
 
-// This tool pulls real financial data from Yahoo Finance
+
 export const financialDataTool = tool(
   async ({ company }) => {
     logger.info(`Getting financials for: ${company}`);
@@ -96,7 +96,7 @@ export const financialDataTool = tool(
         throw new Error(`No data found for ${ticker}`);
       }
 
-      // Helper to safely grab a nested value
+      
       const get = (obj, path) => {
         return path.split('.').reduce((cur, key) => cur && cur[key] !== undefined ? cur[key] : null, obj);
       };

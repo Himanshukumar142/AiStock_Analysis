@@ -2,7 +2,7 @@ import { PromptTemplate } from '@langchain/core/prompts';
 import { StructuredOutputParser } from '@langchain/core/output_parsers';
 import { z } from 'zod';
 
-// This is the shape of data the AI must return
+
 const schema = z.object({
   overview: z.object({
     summary: z.string().describe('Short overview of what the company does.'),

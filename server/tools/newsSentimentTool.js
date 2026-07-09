@@ -4,7 +4,7 @@ import { tavily } from '@tavily/core';
 import { config } from '../config/env.js';
 import { logger } from '../utils/logger.js';
 
-// Set up Tavily client
+
 let search = null;
 try {
   if (config.tavilyApiKey) {
@@ -14,7 +14,7 @@ try {
   logger.error('Tavily setup failed for news tool:', e);
 }
 
-// This tool grabs recent news about the company
+
 export const newsSentimentTool = tool(
   async ({ company }) => {
     logger.info(`Getting news for: ${company}`);

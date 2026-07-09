@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { analyzeCompany, getStockChart } from '../services/api.js';
 
-// Define the steps that compile the timeline
+
 export const LOADING_STEPS = [
   'Researching company details...',
   'Analyzing financial statements & health ratios...',
@@ -20,7 +20,7 @@ export function useStockAnalysis() {
   
   const stepIntervalRef = useRef(null);
 
-  // Clear timers when the hook unmounts to prevent memory leaks
+  
   useEffect(() => {
     return () => {
       if (stepIntervalRef.current) {
@@ -34,7 +34,7 @@ export function useStockAnalysis() {
     
     const query = companyName.trim();
 
-    // Reset state for new run
+    
     setLoading(true);
     setCurrentStep(0);
     setError(null);
@@ -43,19 +43,19 @@ export function useStockAnalysis() {
     setChartLoading(true);
     setAnalyzedCompany(query);
 
-    // Start a periodic timer to advance the loading timeline steps automatically
-    // to give the user a high-end visual progress experience while waiting for the LLM
-    const stepDuration = 2500; // 2.5 seconds per step animation
+    
+    
+    const stepDuration = 2500; 
     stepIntervalRef.current = setInterval(() => {
       setCurrentStep((prev) => {
         if (prev < LOADING_STEPS.length - 1) {
           return prev + 1;
         }
-        return prev; // Hold at final step until request resolves
+        return prev; 
       });
     }, stepDuration);
 
-    // Load chart data immediately in parallel!
+    
     getStockChart(query)
       .then((data) => {
         setChartData(data);
@@ -67,13 +67,13 @@ export function useStockAnalysis() {
       });
 
     try {
-      // Execute the Express API call
+      
       const analysisReport = await analyzeCompany(query);
       setResults(analysisReport);
     } catch (err) {
       setError(err.message || 'An error occurred during the stock research process.');
     } finally {
-      // Clean up timer and loading states
+      
       if (stepIntervalRef.current) {
         clearInterval(stepIntervalRef.current);
       }

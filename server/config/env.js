@@ -5,10 +5,10 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load .env file — override: true makes sure .env always wins over system variables
+
 dotenv.config({ path: path.resolve(__dirname, '../../.env'), override: true });
 
-// Keys we need to work
+
 const needed = ['GEMINI_API_KEY', 'TAVILY_API_KEY'];
 
 function checkKeys() {

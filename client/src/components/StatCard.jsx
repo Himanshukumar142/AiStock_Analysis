@@ -1,16 +1,16 @@
 import React from 'react';
 import { Card } from './ui/card.jsx';
 
-/**
- * Render widget card displaying a financial statistic.
- * @param {string} label - Name/Title of the metric.
- * @param {string|number} value - Main statistical number.
- * @param {React.ReactNode} icon - Vector icon representing the metric.
- * @param {string} subtitle - Explanatory helper text or growth metric.
- * @param {boolean} highlight - Highlights positive numbers.
- */
+
+
+
+
+
+
+
+
 export default function StatCard({ label, value, icon, subtitle, highlight = false, isGrowth = false }) {
-  // Determine text color for growth percentages
+  
   const isPositiveGrowth = isGrowth && subtitle && !subtitle.startsWith('-');
   const growthClass = isPositiveGrowth ? 'text-emerald-500' : isGrowth ? 'text-red-500' : 'text-slate-400';
 

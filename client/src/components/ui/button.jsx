@@ -8,7 +8,7 @@ export function Button({
   children,
   ...props
 }) {
-  // Base classes for a premium button with slight scaling on click
+  
   const baseClasses =
     "inline-flex items-center justify-center font-sans font-semibold rounded-xl transition-all duration-200 outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-2 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100"
 

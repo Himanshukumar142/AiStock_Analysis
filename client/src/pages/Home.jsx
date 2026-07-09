@@ -11,7 +11,7 @@ import StockChartWidget from '../components/StockChartWidget.jsx';
 import { Button } from '../components/ui/button.jsx';
 import { Input } from '../components/ui/input.jsx';
 
-// Define company bubbles to float in background (locations matching red circles)
+
 const BACKGROUND_BUBBLES = [
   { id: 1, name: 'Reliance', logo: 'R', domain: 'relianceindustries.com', color: 'from-blue-600 to-indigo-500 shadow-blue-500/20', size: 'w-16 h-16 md:w-20 md:h-20', top: '15%', left: '4%', animate: 'animate-float-slow' },
   { id: 2, name: 'Tata Motors', logo: 'T', domain: 'tatamotors.com', color: 'from-sky-950 to-blue-800 shadow-indigo-950/20', size: 'w-18 h-18 md:w-22 md:h-22', top: '12%', right: '14%', animate: 'animate-float-fast' },
@@ -24,7 +24,7 @@ const BACKGROUND_BUBBLES = [
   { id: 9, name: 'Wipro', logo: 'W', domain: 'wipro.com', color: 'from-purple-600 to-violet-500 shadow-purple-500/10', size: 'w-14 h-14 md:w-16 md:h-16', top: '74%', right: '8%', animate: 'animate-float-slow' },
 ];
 
-// Suggested trending companies displaying direct circular logo badges under search
+
 const TRENDING_COMPANIES = [
   { name: 'Reliance', ticker: 'RELIANCE.NS', logo: 'R', domain: 'relianceindustries.com', color: 'bg-blue-600 text-white shadow-blue-500/30' },
   { name: 'Tata Motors', ticker: 'TATAMOTORS.NS', logo: 'T', domain: 'tatamotors.com', color: 'bg-sky-950 text-white shadow-slate-900/30' },
@@ -34,7 +34,7 @@ const TRENDING_COMPANIES = [
   { name: 'Nvidia', ticker: 'NVDA', logo: 'N', domain: 'nvidia.com', color: 'bg-emerald-600 text-white shadow-emerald-500/30' },
 ];
 
-// Helper Component to render clearbit company logos with a clean text initials fallback
+
 function CompanyLogo({ name, domain, fallbackText, className }) {
   const [error, setError] = useState(false);
   const logoUrl = `https://logo.clearbit.com/${domain}`;
@@ -73,7 +73,7 @@ export default function Home() {
     resetAnalysis
   } = useStockAnalysis();
 
-  // Close autocomplete dropdown when clicking outside
+  
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -84,7 +84,7 @@ export default function Home() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Fetch search suggestions dynamically when typing
+  
   const handleInputChange = async (e) => {
     const val = e.target.value;
     setSearchTerm(val);
@@ -121,7 +121,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col justify-between relative overflow-hidden bg-slate-50/10">
       
-      {/* 1. FLOATING BRAND BUBBLES IN BACKGROUND (Only on landing screen) */}
+      
       {!loading && !results && (
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
           {BACKGROUND_BUBBLES.map((b) => (
@@ -146,10 +146,10 @@ export default function Home() {
         </div>
       )}
 
-      {/* 2. TOP FLOATING GLASSMORPHIC NAVBAR (Centered layout requested) */}
+      
       <header className="w-full max-w-5xl mx-auto px-4 pt-6 sticky top-0 z-50">
         <div className="border border-white/50 bg-white/35 backdrop-blur-xl px-6 py-3.5 flex items-center justify-between shadow-lg shadow-slate-100/50 rounded-2xl">
-          {/* Logo element */}
+          
           <div className="flex items-center space-x-2.5 cursor-pointer" onClick={resetAnalysis}>
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-primary-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-200">
               <TrendingUp className="w-5 h-5" />
@@ -159,7 +159,7 @@ export default function Home() {
             </span>
           </div>
 
-          {/* Centered links requested: Company, Contact, Forex News */}
+          
           <nav className="hidden md:flex items-center space-x-6">
             <a 
               href="#" 
@@ -186,7 +186,7 @@ export default function Home() {
             </a>
           </nav>
 
-          {/* Model badge */}
+          
           <div className="flex items-center space-x-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
             <span>Gemini 2.5 Flash</span>
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
@@ -194,11 +194,11 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Main Content Area */}
+      
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 py-8 flex flex-col justify-center relative z-10">
         <AnimatePresence mode="wait">
           
-          {/* STATE 1: LOADING SCREEN WITH PREVIEW CHART */}
+          
           {loading && (
             <motion.div 
               key="loading"
@@ -207,12 +207,12 @@ export default function Home() {
               exit={{ opacity: 0 }}
               className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-w-6xl mx-auto w-full"
             >
-              {/* AI Agent Status Tracker (left) */}
+              
               <div className="lg:col-span-5">
                 <LoadingScreen currentStep={currentStep} companyName={analyzedCompany} />
               </div>
               
-              {/* Real-time chart loading concurrently (right) */}
+              
               <div className="lg:col-span-7 h-full flex flex-col justify-center">
                 <div className="space-y-4">
                   <div className="text-xs font-bold text-slate-400 uppercase tracking-widest pl-2">
@@ -224,7 +224,7 @@ export default function Home() {
             </motion.div>
           )}
 
-          {/* STATE 2: ANALYTICS DASHBOARD */}
+          
           {!loading && results && (
             <motion.div
               key="dashboard"
@@ -237,7 +237,7 @@ export default function Home() {
             </motion.div>
           )}
 
-          {/* STATE 3: LANDING / SEARCH BOX */}
+          
           {!loading && !results && (
             <motion.div
               key="search-landing"
@@ -247,7 +247,7 @@ export default function Home() {
               transition={{ type: 'spring', stiffness: 70 }}
               className="max-w-2xl mx-auto w-full text-center space-y-10 py-16 relative"
             >
-              {/* Promotional Hero Title */}
+              
               <div className="space-y-5">
                 <motion.div
                   initial={{ scale: 0.9, opacity: 0 }}
@@ -268,7 +268,7 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Large Search Box Form with Autocomplete List */}
+              
               <div className="relative max-w-xl mx-auto" ref={dropdownRef}>
                 <form onSubmit={handleSearchSubmit}>
                   <div className="flex items-center relative rounded-2xl search-glow bg-white border border-slate-200/80 p-2 focus-within:ring-4 focus-within:ring-primary-100/60 focus-within:border-primary-400/80 transition-all duration-350">
@@ -295,7 +295,7 @@ export default function Home() {
                   </div>
                 </form>
 
-                {/* 3. AUTOCOMPLETE SUGGESTIONS POP OVER (Requested) */}
+                
                 <AnimatePresence>
                   {showSuggestions && suggestions.length > 0 && (
                     <motion.div
@@ -327,7 +327,7 @@ export default function Home() {
                 </AnimatePresence>
               </div>
 
-              {/* 4. COMPANY STOCK LOGO BADGES (Trending Chips under search requested) */}
+              
               <div className="space-y-3 pt-3">
                 <span className="text-slate-400 text-xs font-bold font-sans uppercase tracking-widest block">
                   Click a direct company to research:
@@ -340,7 +340,7 @@ export default function Home() {
                       onClick={() => handleSuggestClick(company.ticker)}
                       className="flex items-center space-x-2.5 px-4.5 py-2.5 bg-white border border-slate-200/60 shadow-sm rounded-2xl hover:shadow-md hover:border-primary-350 hover:-translate-y-0.5 active:scale-95 transition-all duration-200"
                     >
-                      {/* Circular styled logo badge */}
+                      
                       <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-extrabold tracking-wider uppercase overflow-hidden shadow">
                         <CompanyLogo
                           name={company.name}
@@ -355,7 +355,7 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Friendly Error Box */}
+              
               {error && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -375,7 +375,7 @@ export default function Home() {
         </AnimatePresence>
       </main>
 
-      {/* Simple Professional Footer */}
+      
       <footer className="border-t border-slate-200/40 bg-white/20 backdrop-blur-sm py-6 text-center text-xs text-slate-400 font-sans">
         <p>© {new Date().getFullYear()} AiStock Agent. Built for Equity Research and Investment Analysis.</p>
       </footer>

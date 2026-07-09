@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+
 export default {
   content: [
     "./index.html",
@@ -10,31 +10,31 @@ export default {
         sans: ['Outfit', 'Inter', 'sans-serif'],
       },
       colors: {
-        // Harmonious premium color scheme
+        
         primary: {
           50: '#f5f3ff',
           100: '#ede9fe',
           200: '#ddd6fe',
-          300: '#c084fc', // purple
+          300: '#c084fc', 
           400: '#a855f7',
-          500: '#8b5cf6', // main brand indigo
+          500: '#8b5cf6', 
           600: '#7c3aed',
           700: '#6d28d9',
         },
         success: {
           50: '#f0fdf4',
-          500: '#10b981', // emerald green
+          500: '#10b981', 
           600: '#059669',
           700: '#047857',
         },
         danger: {
           50: '#fef2f2',
-          500: '#ef4444', // red
+          500: '#ef4444', 
           600: '#dc2626',
         },
         warning: {
           50: '#fffbeb',
-          500: '#f59e0b', // amber
+          500: '#f59e0b', 
           600: '#d97706',
         }
       },

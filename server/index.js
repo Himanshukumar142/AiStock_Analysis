@@ -6,7 +6,7 @@ import analyzeRouter from './routes/analyze.js';
 
 const app = express();
 
-// Allow requests from the frontend
+
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST', 'OPTIONS'],
@@ -15,16 +15,16 @@ app.use(cors({
 
 app.use(express.json());
 
-// Log every incoming request
+
 app.use((req, res, next) => {
   logger.info(`${req.method} ${req.url}`);
   next();
 });
 
-// Main API routes
+
 app.use('/api', analyzeRouter);
 
-// Health check — useful for debugging
+
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'ok',
@@ -33,12 +33,12 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// 404 handler
+
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found.' });
 });
 
-// Global error handler
+
 app.use((err, req, res, next) => {
   logger.error('Server error:', err);
   res.status(500).json({
@@ -47,7 +47,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
+
 const PORT = config.port;
 app.listen(PORT, () => {
   logger.success(`Server running on port ${PORT}`);

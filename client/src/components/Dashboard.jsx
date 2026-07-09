@@ -13,29 +13,29 @@ import { Badge } from './ui/badge.jsx';
 import StatCard from './StatCard.jsx';
 import StockChartWidget from './StockChartWidget.jsx';
 
-/**
- * Main dashboard visualizing the LangChain agent's structured JSON analysis.
- * @param {Object} data - The raw parsed JSON report from the API.
- * @param {Object} chartData - Real-time stock chart data.
- * @param {Function} onBack - Action to return to search home.
- */
+
+
+
+
+
+
 export default function Dashboard({ data, chartData, onBack }) {
   if (!data) return null;
 
   const { overview, financial, news, risk, recommendation } = data;
   const isInvest = recommendation.decision === 'INVEST';
 
-  // 1. Prepare Chart Data: Financial Comparison
-  // Convert metrics to display numbers for BarChart (in millions or raw if small)
+  
+  
   const parseToNumeric = (val) => {
     if (!val) return 0;
     if (typeof val === 'number') return val;
-    // Extract numbers from strings like "$96.77 Billion" or "$5.4 Billion"
+    
     const matched = val.replace(/[$,]/g, '').match(/(-?\d+\.?\d*)\s*(Billion|Million|B|M|T)?/i);
     if (!matched) return 0;
     const num = parseFloat(matched[1]);
     const unit = matched[2]?.toLowerCase();
-    if (unit === 'billion' || unit === 'b') return num * 1000; // Standardize to Millions
+    if (unit === 'billion' || unit === 'b') return num * 1000; 
     if (unit === 'trillion' || unit === 't') return num * 1000000;
     return num;
   };
@@ -46,8 +46,8 @@ export default function Dashboard({ data, chartData, onBack }) {
     { name: 'Cash Flow', Amount: parseToNumeric(financial.cashFlow), fill: '#10b981' }
   ];
 
-  // 2. Prepare Chart Data: Sentiment Ratio
-  // Compare positive vs negative news counts
+  
+  
   const positiveCount = news.positiveNews?.length || 1;
   const negativeCount = news.negativeNews?.length || 1;
   const sentimentData = [
@@ -55,12 +55,12 @@ export default function Dashboard({ data, chartData, onBack }) {
     { name: 'Negative/Risk Headlines', value: negativeCount, color: '#ef4444' }
   ];
 
-  // 3. Prepare Chart Data: Radial Health Score
+  
   const healthData = [
     { name: 'Score', value: financial.financialHealthScore || 50, fill: '#8b5cf6' }
   ];
 
-  // Formatter for Tooltips
+  
   const formatTooltipValue = (value) => {
     return `${value.toFixed(1)} M`;
   };
@@ -75,7 +75,7 @@ export default function Dashboard({ data, chartData, onBack }) {
       }}
       className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
     >
-      {/* Header Bar */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200/50 pb-6">
         <div>
           <Badge variant="primary" className="mb-2">AiStock Intelligence Report</Badge>
@@ -94,7 +94,7 @@ export default function Dashboard({ data, chartData, onBack }) {
         </button>
       </div>
 
-      {/* Stock Chart Widget */}
+      
       {chartData && (
         <motion.div
           variants={{
@@ -106,7 +106,7 @@ export default function Dashboard({ data, chartData, onBack }) {
         </motion.div>
       )}
 
-      {/* 1. HIGHLIGHTED RECOMMENDATION Thesis CARD (Apple inspired left border layout) */}
+      
       <motion.div 
         variants={{
           hidden: { opacity: 0, y: 20 },
@@ -118,7 +118,7 @@ export default function Dashboard({ data, chartData, onBack }) {
             : 'bg-gradient-to-br from-rose-50/20 via-white/80 to-slate-50/10 border-slate-200 border-l-rose-500 shadow-rose-500/5'
         }`}
       >
-        {/* Glow Abstract Background decoration */}
+        
         <div className={`absolute top-0 right-0 w-80 h-80 rounded-full blur-[100px] opacity-15 -mr-28 -mt-28 ${
           isInvest ? 'bg-emerald-400' : 'bg-rose-400'
         }`} />
@@ -142,7 +142,7 @@ export default function Dashboard({ data, chartData, onBack }) {
               {recommendation.reasoning}
             </p>
 
-            {/* Strengths & Weaknesses Grids */}
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               <div className="bg-emerald-50/30 border border-emerald-100/30 rounded-2xl p-5 shadow-sm">
                 <h4 className="text-emerald-700 font-extrabold text-sm flex items-center mb-3">
@@ -174,7 +174,7 @@ export default function Dashboard({ data, chartData, onBack }) {
             </div>
           </div>
 
-          {/* Rating Circle Gauge with Glowing Ring */}
+          
           <div className="flex flex-col items-center justify-center shrink-0 mx-auto lg:mx-0">
             <div className={`relative w-36 h-36 flex items-center justify-center bg-white/90 backdrop-blur rounded-full border border-slate-100 shadow-md ${
               isInvest ? 'shadow-emerald-500/10' : 'shadow-rose-500/10'
@@ -211,10 +211,10 @@ export default function Dashboard({ data, chartData, onBack }) {
         </div>
       </motion.div>
 
-      {/* 2. STATS & OVERVIEW LAYOUT */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* Company Overview (Left 1/3) */}
+        
         <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
           <Card className="h-full flex flex-col justify-between">
             <CardHeader>
@@ -260,7 +260,7 @@ export default function Dashboard({ data, chartData, onBack }) {
           </Card>
         </motion.div>
 
-        {/* Financial Highlights Grid (Right 2/3) */}
+        
         <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
             <StatCard 
@@ -308,7 +308,7 @@ export default function Dashboard({ data, chartData, onBack }) {
             />
           </motion.div>
 
-          {/* Health Score Gauge */}
+          
           <motion.div 
             variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}
             className="glass-card flex flex-col items-center justify-center p-6"
@@ -343,9 +343,9 @@ export default function Dashboard({ data, chartData, onBack }) {
         </div>
       </div>
 
-      {/* 3. CHARTS GRID */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Financial Position Comparison */}
+        
         <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
           <Card>
             <CardHeader>
@@ -372,7 +372,7 @@ export default function Dashboard({ data, chartData, onBack }) {
           </Card>
         </motion.div>
 
-        {/* Media Sentiment Chart */}
+        
         <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
           <Card className="flex flex-col justify-between">
             <CardHeader>
@@ -382,7 +382,7 @@ export default function Dashboard({ data, chartData, onBack }) {
               </p>
             </CardHeader>
             <CardContent className="h-64 flex flex-col sm:flex-row items-center justify-around">
-              {/* Recharts Pie Chart */}
+              
               <div className="w-44 h-44 relative shrink-0">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -408,7 +408,7 @@ export default function Dashboard({ data, chartData, onBack }) {
                 </div>
               </div>
 
-              {/* Legend Summary */}
+              
               <div className="space-y-4 font-sans text-xs">
                 <div className="flex items-center">
                   <div className="w-3.5 h-3.5 bg-emerald-500 rounded-md mr-2 shrink-0" />
@@ -427,9 +427,9 @@ export default function Dashboard({ data, chartData, onBack }) {
         </motion.div>
       </div>
 
-      {/* 4. RISK MATRIX & MEDIA NEWS */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Risk Analysis Card */}
+        
         <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
           <Card className="h-full">
             <CardHeader>
@@ -490,7 +490,7 @@ export default function Dashboard({ data, chartData, onBack }) {
           </Card>
         </motion.div>
 
-        {/* Latest News Feed */}
+        
         <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
           <Card className="h-full flex flex-col justify-between">
             <CardHeader>

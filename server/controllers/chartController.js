@@ -3,17 +3,17 @@ import { logger } from '../utils/logger.js';
 
 const yf = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
 
-// Find the ticker for a company name, prioritizing Indian markets (.NS)
+
 async function findTicker(name) {
   try {
     const q = name.trim().toUpperCase();
 
-    // 1. If it already has an Indian suffix (like RELIANCE.NS, TCS.BO), use it directly
+    
     if (/^[A-Z0-9-]{1,12}\.(NS|BO)$/i.test(q)) {
       return q;
     }
 
-    // 2. If it's a 1-6 letter symbol (like INFY, TCS), check if the .NS version exists first!
+    
     if (/^[A-Z0-9-]{1,6}$/.test(q)) {
       try {
         const indianSymbol = `${q}.NS`;
@@ -23,7 +23,7 @@ async function findTicker(name) {
           return indianSymbol;
         }
       } catch (e) {
-        // ignore
+        
       }
     }
 
@@ -31,10 +31,10 @@ async function findTicker(name) {
     const quotes = res?.quotes || [];
 
     if (quotes.length > 0) {
-      // A. Try mapping the first search result's symbol to NSE (.NS)
+      
       const firstQuote = quotes.find(q => q.quoteType === 'EQUITY') || quotes[0];
       if (firstQuote?.symbol) {
-        const baseSymbol = firstQuote.symbol.split('.')[0]; // strip any existing suffix
+        const baseSymbol = firstQuote.symbol.split('.')[0]; 
         const nseSymbol = `${baseSymbol}.NS`;
         try {
           const exists = await yf.quote(nseSymbol, {}, { validateResult: false });
@@ -43,11 +43,11 @@ async function findTicker(name) {
             return nseSymbol;
           }
         } catch (err) {
-          // ignore
+          
         }
       }
 
-      // B. If no mapping exists, look for any direct Indian quotes in the search results
+      
       const indianMatch = quotes.find(quote => 
         quote.symbol?.endsWith('.NS') || 
         quote.symbol?.endsWith('.BO') || 
@@ -62,7 +62,7 @@ async function findTicker(name) {
         return indianMatch.symbol;
       }
 
-      // C. Fallback to the original first search result
+      
       if (firstQuote?.symbol) {
         return firstQuote.symbol;
       }
@@ -73,8 +73,8 @@ async function findTicker(name) {
   return name;
 }
 
-// GET /api/chart/:company
-// Returns 6 months of daily price history for the stock chart
+
+
 export async function getStockChart(req, res) {
   const { company } = req.params;
   try {
@@ -83,7 +83,7 @@ export async function getStockChart(req, res) {
 
     const end = new Date();
     const start = new Date();
-    start.setMonth(start.getMonth() - 12); // 12 months so user can filter by 1M/3M/6M/1Y
+    start.setMonth(start.getMonth() - 12); 
 
     const [history, quote] = await Promise.all([
       yf.historical(ticker, {
@@ -126,8 +126,8 @@ export async function getStockChart(req, res) {
   }
 }
 
-// GET /api/autocomplete?q=...
-// Returns live company search autocomplete list from Yahoo Finance
+
+
 export async function getAutocomplete(req, res) {
   const { q } = req.query;
   if (!q || q.trim() === '') {
