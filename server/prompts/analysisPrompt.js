@@ -10,7 +10,8 @@ const schema = z.object({
     ceo: z.string().describe('Name of the CEO.'),
     headquarters: z.string().describe('City and country of HQ.'),
     products: z.array(z.string()).describe('List of main products or services.'),
-    marketPosition: z.string().describe('Their position in the market (leader, challenger, etc).')
+    marketPosition: z.string().describe('Their position in the market (leader, challenger, etc).'),
+    website: z.string().describe('Official website URL or domain of the company, e.g. "tesla.com", "relianceindustries.com", "apple.com".')
   }),
   financial: z.object({
     revenue: z.string().describe('Total revenue, e.g. "$96.77 Billion".'),

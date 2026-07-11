@@ -12,7 +12,6 @@ export default function LoadingScreen({ currentStep, companyName }) {
   
   
   const getStepIcon = (index, isActive, isCompleted) => {
-    const iconSize = 20;
     if (isCompleted) {
       return <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />;
     }
@@ -36,13 +35,13 @@ export default function LoadingScreen({ currentStep, companyName }) {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="w-full max-w-md glass-card border-white/70 p-8 text-center"
+        className="w-full max-w-md glass-card border-white/70 p-6 sm:p-8 text-center"
       >
         
         <div className="relative w-24 h-24 mx-auto mb-8 flex items-center justify-center">
           <div className="absolute inset-0 bg-primary-400/20 rounded-full animate-ping" />
-          <div className="absolute inset-2 bg-gradient-to-tr from-primary-500 to-indigo-600 rounded-full shadow-lg shadow-indigo-200/50 flex items-center justify-center">
-            <Cpu className="w-10 h-10 text-white animate-pulse" />
+          <div className="absolute inset-2 bg-white rounded-2xl shadow-lg border border-slate-100/80 flex items-center justify-center">
+            <img src="/favicon.svg" alt="AiStock Logo" className="w-13 h-13 object-contain animate-pulse" />
           </div>
         </div>
 
@@ -58,7 +57,6 @@ export default function LoadingScreen({ currentStep, companyName }) {
           {LOADING_STEPS.map((stepText, idx) => {
             const isCompleted = idx < currentStep;
             const isActive = idx === currentStep;
-            const isUpcoming = idx > currentStep;
 
             return (
               <motion.div
