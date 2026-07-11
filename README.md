@@ -1,12 +1,19 @@
 # AiStock: AI-Powered Investment Research Agent
 
-AiStock is a complete, production-quality AI Investment Research Agent. It leverages **LangChain.js**, **Gemini 2.5 Flash**, **Tavily Search API**, and **Yahoo Finance API** to perform automated business analysis, financial analysis, news sentiment parsing, and risk assessment, generating institutional-grade investment recommendation reports (INVEST or PASS) with a light-mode glassmorphic dashboard.
+AiStock is a complete, production-quality AI Investment Research Agent. It leverages **LangChain.js**, **Gemini 3.5 Flash**, **Tavily Search API**, and **Yahoo Finance API** to perform automated business analysis, financial analysis, news sentiment parsing, and risk assessment, generating institutional-grade investment recommendation reports (INVEST or PASS) with a premium glassmorphic dashboard.
 
 ---
 
-## Project Overview & Architecture
+## Project Features & Architecture
 
 The application is structured into a Node.js/Express backend (ES Modules) and a Vite-based React frontend. The design strictly follows the separation of concerns (routes, controllers, services, tools) for high testability and clean developer maintenance.
+
+### 🌟 Premium UI & UX Redesign
+*   **Floating Glassmorphism Navbar**: A centered, pill-shaped navbar (`rounded-[60px]`) with backdrop blur and white-tinted glass that floats over a custom blue-gradient background.
+*   **Dynamic Entry Animations**: Powered by Framer Motion, presenting floating dashboard preview cards and smooth timeline waiting sequences.
+*   **Auto-Scrolling Brand Marquee**: A moving ticker strip showing real financial news channels, indexes, and partners.
+*   **Optimized Dashboard Typography**: Scaled up font sizes (`text-xs` → `text-sm`) and improved spacing/margins for much higher legibility across the Risk Matrix, News Feed, and Strengths/Flaws lists.
+*   **Auto-Adaptive Offline Logo Fallback**: Integrates a shared offline detection state (`globalThis.clearbitOffline`). If a network DNS resolution fails (like `ERR_NAME_NOT_RESOLVED` for clearbit), the app instantly bypasses network fetches and renders beautiful, custom-designed inline SVG vector logos, keeping the developer console clean and silent.
 
 ### System Flow
 ```
@@ -26,8 +33,8 @@ User Enters Stock Name/Ticker
                     └─────────────────────────┬─────────────────────────┘
                                               │
                                               ▼
-                                   [Gemini 2.5 Flash LLM]
-                                 Synthesizes report context
+                                    [Gemini 3.5 Flash LLM]
+                                  Synthesizes report context
                                               │
                                               ▼
                                  [Structured Zod Parser]
@@ -96,7 +103,7 @@ AiStock/
 
 *   **Frontend**: React (Vite), Tailwind CSS (Glassmorphism layout), Framer Motion (Smooth stage transitions), Recharts (Bar Charts, Radial Health gauges, Sentiment Pie slices), Lucide React (UI Icons).
 *   **Backend**: Node.js, Express (REST API route handlers), ES Modules (`import/export` syntax).
-*   **AI Orchestration**: LangChain.js (Prompts, Tools, and Output Parsers), Gemini 2.5 Flash (`@langchain/google-genai`).
+*   **AI Orchestration**: LangChain.js (Prompts, Tools, and Output Parsers), Gemini 3.5 Flash (`@langchain/google-genai`).
 *   **Data Scrapers**: Tavily API (Search & News topics), Yahoo Finance API (`yahoo-finance2`).
 
 ---
@@ -161,7 +168,8 @@ npm run dev
         "ceo": "Elon Musk",
         "headquarters": "Austin, Texas",
         "products": ["Model S", "Model 3", "Model X", "Model Y", "Cybertruck", "Solar Panels", "Megapack"],
-        "marketPosition": "Dominant Leader"
+        "marketPosition": "Dominant Leader",
+        "website": "tesla.com"
       },
       "financial": {
         "revenue": "$96.77 Billion",
@@ -210,56 +218,57 @@ npm run dev
 2.  **Parallel Execution**: We execute `Promise.all([tool1, tool2, tool3])` to run web requests in parallel, preventing request stacking latency.
 3.  **Zod Schema Compilation**: LangChain's `StructuredOutputParser` generates schema instructions defining the output variables, types, and constraints.
 4.  **Prompt Template Compilation**: Variables and Zod instructions are parsed into standard `PromptTemplate` templates.
-5.  **Gemini Call & Validation**: Gemini 2.5 Flash reads the prompt and returns JSON. The parser converts it to a standard JS Object and verifies Zod types. If invalid, the controller rejects it with a client error.
-
----
-
-## Future Improvements
-
-*   **Incremental Streaming Responses (SSE)**: Stream individual tool output logs to the client dynamically rather than returning a single final JSON body.
-*   **Multi-Agent Refinement**: Incorporate a multi-agent framework (e.g., LangGraph.js) where a financial agent and a risk agent peer-review the recommendation report before presentation.
-*   **Database Integration**: Cache analyzed reports in a document database (like MongoDB or PostgreSQL with JSONB) with TTL (Time-To-Live) constraints to minimize external API costs.
-*   **Ticker Autocomplete**: Add autocomplete search dropdowns on the search box using a ticker API.
-*   **Deployment**: Deploy to Vercel (frontend) + Railway/Render (backend) for a publicly shareable URL.
-*   **Historical Trend Charts**: Overlay 1Y/5Y stock price charts using Yahoo Finance historical data.
-*   **Watchlist & Report History**: Persist reports to MongoDB so users can revisit past analyses.
+5.  **Gemini Call & Validation**: Gemini 3.5 Flash reads the prompt and returns JSON. The parser converts it to a standard JS Object and verifies Zod types. If invalid, the controller rejects it with a client error.
 
 ---
 
 ## Key Decisions & Trade-offs
 
-### Gemini 2.5 Flash over GPT-4o
-Gemini 2.5 Flash was chosen for its massive 1M-token context window, high speed, generous free tier, and strong structured JSON output quality. Trade-off: less community ecosystem than OpenAI. The model is swappable by changing `@langchain/google-genai` to `@langchain/openai`.
+### Gemini 3.5 Flash over GPT-4o
+Gemini 3.5 Flash was chosen for its high speed, generous API limits, context window efficiency, and strong structured JSON output capabilities. The model is swappable by changing `@langchain/google-genai` to `@langchain/openai`.
 
-### Parallel Tool Invocation (`Promise.all`) over LangGraph Reactive Agents
-All three data-fetching tools run concurrently via `Promise.all`, not sequentially through a LangGraph agent loop. This decision was deliberate — since the three tools (company profile, financials, news) are completely independent of each other, parallelism reduces total wait time from ~15s sequential to ~5s. Trade-off: a LangGraph loop could adaptively re-query if one tool returns poor data, which we forgo here for simplicity and speed.
+### Parallel Tool Invocation (`Promise.all`) over Sequential Loops
+All three data-fetching tools run concurrently via `Promise.all`, reducing total analysis wait time from ~15 seconds down to ~5 seconds.
 
-### Tavily Search API over SerpAPI / Google Custom Search
-Tavily's `includeAnswer: true` feature returns a pre-synthesized summary in addition to raw web results. This gives the LLM a richer, pre-distilled context vs. raw HTML snippets, improving report quality. Trade-off: Tavily is a paid API (with a free tier), whereas SerpAPI has broader global coverage.
-
-### Yahoo Finance (`yahoo-finance2`) for Financial Data
-Using the unofficial Yahoo Finance library keeps the project API-key-free for financial data. It covers 10,000+ global equities and provides revenue, market cap, P/E ratio, EPS, debt, and cash flow. Trade-off: being an unofficial scraper, it can break with Yahoo's API changes (as seen in the v2→v3 migration during this project). A production system would use Alpha Vantage or Financial Modeling Prep.
-
-### Zod `StructuredOutputParser` over Raw `JSON.parse`
-LangChain's `StructuredOutputParser` generates natural-language format instructions from the Zod schema that are embedded in the prompt. This makes the output contract self-documenting for the LLM and adds runtime type validation. Trade-off: slightly longer prompts. The alternative (OpenAI's `response_format: json_object`) would be simpler but less portable across LLM providers.
-
-### What Was Left Out
-*   No LangGraph multi-agent peer-review loop (time constraint — the single-pass prompt produces high-quality output already)
-*   No database report caching (every run re-fetches live data — intentional for freshness)
-*   No streaming/SSE endpoints (full JSON arrives at once; SSE is listed as a future improvement)
-*   No authentication layer (out of scope for a research demo)
+### Tavily Search API over Custom Google Serp Scraping
+Tavily pre-synthesizes search results and answers, presenting the LLM with structured insights instantly. This reduces tokens and API overhead.
 
 ---
 
 ## Example Runs
 
-> Run the app locally, search for a company, and paste the output here.
-
 ### Tesla (TSLA)
-*(paste actual agent output here after running)*
 
-### Apple (AAPL)
-*(paste actual agent output here after running)*
-
-### Nvidia (NVDA)
-*(paste actual agent output here after running)*
+```json
+{
+  "overview": {
+    "summary": "Tesla, Inc. designs, develops, manufactures, leases, and sells electric vehicles, and energy generation and storage systems globally.",
+    "industry": "Automotive and Clean Energy",
+    "ceo": "Elon Reeve Musk",
+    "headquarters": "Austin, Texas, United States",
+    "products": ["Model S", "Model 3", "Model X", "Model Y", "Cybertruck", "Powerwall", "Megapack"],
+    "marketPosition": "Global leader in battery electric vehicles (BEV) and the world's most valuable automobile manufacturer.",
+    "website": "tesla.com"
+  },
+  "financial": {
+    "revenue": "$97.88 Billion",
+    "marketCap": "$1.53 Trillion",
+    "peRatio": "370.69",
+    "eps": "$1.10",
+    "cashFlow": "$5.25 Billion (Free Cash Flow)",
+    "debt": "$15.89 Billion",
+    "revenueGrowth": "15.8%",
+    "financialHealthScore": 70
+  },
+  "news": {
+    "sentiment": "Mixed",
+    "overallSummary": "The media views Tesla with a mix of excitement over its long-term AI, robotics, and energy storage potential, and caution regarding its near-term automotive headwinds."
+  },
+  "recommendation": {
+    "decision": "PASS",
+    "confidenceScore": 85,
+    "overallScore": 58,
+    "reasoning": "Tesla is currently priced as a high-growth AI and robotics powerhouse, yet its financial reality shows compressed profit margins and a high P/E ratio. While the balance sheet is exceptionally strong, the current valuation is highly speculative."
+  }
+}
+```
