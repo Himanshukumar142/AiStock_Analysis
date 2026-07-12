@@ -1,13 +1,8 @@
 import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-
-dotenv.config({ path: path.resolve(__dirname, '../../.env'), override: true });
-
+// In production (Render.com), env vars are injected by the platform.
+// dotenv.config() is a no-op if vars are already set, which is safe.
+dotenv.config();
 
 const needed = ['GEMINI_API_KEY', 'TAVILY_API_KEY'];
 
